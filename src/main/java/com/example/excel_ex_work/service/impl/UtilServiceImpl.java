@@ -62,7 +62,7 @@ public class UtilServiceImpl implements UtilService {
             return workbook;
         } catch (Exception ex) {
             log.error("Exception: {}", ex);
-            throw new PilotErpException("Invalid File Format");
+            throw new PilotPayoutError("Invalid File Format");
         }
     }
 
@@ -129,7 +129,7 @@ public class UtilServiceImpl implements UtilService {
                             if (i == row.getLastCellNum() - 1) {
                                 row.removeCell(cell);
                             } else {
-                                throw new PilotErpException("Empty column in between table");
+                                throw new PilotPayoutError("Empty column in between table");
                             }
                         }
                     }
@@ -137,7 +137,7 @@ public class UtilServiceImpl implements UtilService {
             }
         } catch (Exception ex) {
             log.error("Exception {}", ex);
-            throw new PilotErpException("Invalid File Format!");
+            throw new PilotPayoutError("Invalid File Format!");
         }
         return sheet;
     }
@@ -160,7 +160,7 @@ public class UtilServiceImpl implements UtilService {
                     new PropertyDescriptor(columns, schemaClass).getWriteMethod();
                 } catch (IntrospectionException ex) {
                     log.error("Exception: ", ex);
-                    throw new PilotErpException("Invalid column name: " + columns);
+                    throw new PilotPayoutError("Invalid column name: " + columns);
                 } catch (Exception ex) {
                     log.error("Exception: {}", ex);
                     return false;
@@ -169,7 +169,7 @@ public class UtilServiceImpl implements UtilService {
 
         } else {
             log.error("Excel does not contains all the mandatory columns : Mandatory columns are {}", mandatoryColumns.toString());
-            throw new PilotErpException("Excel does not contains all the mandatory columns");
+            throw new PilotPayoutError("Excel does not contains all the mandatory columns");
         }
         return true;
     }
@@ -191,7 +191,7 @@ public class UtilServiceImpl implements UtilService {
             }
         } catch (IntrospectionException ex) {
             log.error("Exception: {}", ex);
-            throw new PilotErpException("Invalid column name: " + sheetFieldName);
+            throw new PilotPayoutError("Invalid column name: " + sheetFieldName);
         } catch (Exception ex) {
             log.error("Exception: {}", ex);
             return false;

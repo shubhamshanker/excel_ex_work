@@ -7,6 +7,6 @@ import java.util.Date;
 
 public interface ExcelService {
 
-    ExcelUploadResponseDto bulkuploadExcel(MultipartFile multipartFile, Date startDate, Date endDate);
+    ExcelUploadResponseDto bulkuploadExcel(MultipartFile multipartFile, Date startDate, Date endDate) throws Exception;
 
 }
