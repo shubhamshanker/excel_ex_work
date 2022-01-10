@@ -1,5 +1,7 @@
 package com.example.excel_ex_work.service.impl;
 
+import com.example.excel_ex_work.dto.AdvanceDetailDto;
+import com.example.excel_ex_work.dto.AdvanceSummaryDto;
 import com.example.excel_ex_work.dto.ExcelReadErrorWrapper;
 import com.example.excel_ex_work.dto.PilotDetailDto;
 import com.example.excel_ex_work.exception.PilotPayoutError;
@@ -27,9 +29,9 @@ import java.util.List;
 public class UtilServiceImpl implements UtilService {
 
     @Override
-    public List<PilotDetailDto> convertToUploadTransactionFromInputFile(MultipartFile inputFile, List<String> mandatoryColumns) throws Exception {
+    public List<PilotDetailDto> convertToUploadPilotDetailTransactionFromInputFile(MultipartFile inputFile, List<String> mandatoryColumns) throws Exception {
         Workbook workbook = convertFileToWorkbook(new ArrayList<>(), inputFile, false);
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet sheet = workbook.getSheet("pilot_payout");
         sheet = removeEmptyRowsAndColumnsFromExcelFile(sheet);
         if (!isFileFormatValid(sheet, mandatoryColumns, PilotDetailDto.class)) {
             throw new PilotPayoutError("Invalid file format for banking transaction");
@@ -41,6 +43,44 @@ public class UtilServiceImpl implements UtilService {
         }
         Collection<PilotDetailDto> collection = GenericReportReaderImpl.read
                 (sheet, PilotDetailDto.class, "dd-MMM-yy HH:mm:ss", "HH:mm:ss", errorList);
+
+        return new ArrayList<>(collection);
+    }
+
+    @Override
+    public List<AdvanceDetailDto> convertToUploadAdvanceDetailTransactionFromInputFile(MultipartFile inputFile, List<String> mandatoryColumns) throws Exception {
+        Workbook workbook = convertFileToWorkbook(new ArrayList<>(), inputFile, false);
+        Sheet sheet = workbook.getSheet("advance_details");
+        sheet = removeEmptyRowsAndColumnsFromExcelFile(sheet);
+        if (!isFileFormatValid(sheet, mandatoryColumns, AdvanceDetailDto.class)) {
+            throw new PilotPayoutError("Invalid file format for banking transaction");
+        }
+        List<ExcelReadErrorWrapper> errorList = new ArrayList<>();
+        log.info("sheet lastrownum: {}", sheet.getLastRowNum());
+        if(sheet.getLastRowNum()>100){
+            throw new PilotPayoutError("Excel size limit is less than or equals to 100");
+        }
+        Collection<AdvanceDetailDto> collection = GenericReportReaderImpl.read
+                (sheet, AdvanceDetailDto.class, "dd-MMM-yy HH:mm:ss", "HH:mm:ss", errorList);
+
+        return new ArrayList<>(collection);
+    }
+
+    @Override
+    public List<AdvanceSummaryDto> convertToUploadAdvanceSummaryTransactionFromInputFile(MultipartFile inputFile, List<String> mandatoryColumns) throws Exception {
+        Workbook workbook = convertFileToWorkbook(new ArrayList<>(), inputFile, false);
+        Sheet sheet = workbook.getSheet("advance_summary");
+        sheet = removeEmptyRowsAndColumnsFromExcelFile(sheet);
+        if (!isFileFormatValid(sheet, mandatoryColumns, AdvanceSummaryDto.class)) {
+            throw new PilotPayoutError("Invalid file format for banking transaction");
+        }
+        List<ExcelReadErrorWrapper> errorList = new ArrayList<>();
+        log.info("sheet lastrownum: {}", sheet.getLastRowNum());
+        if(sheet.getLastRowNum()>100){
+            throw new PilotPayoutError("Excel size limit is less than or equals to 100");
+        }
+        Collection<AdvanceSummaryDto> collection = GenericReportReaderImpl.read
+                (sheet, AdvanceSummaryDto.class, "dd-MMM-yy HH:mm:ss", "HH:mm:ss", errorList);
 
         return new ArrayList<>(collection);
     }

@@ -15,6 +15,12 @@ import lombok.ToString;
 @ToString
 public class PilotDetailDto {
     private String pilotCode;
-    private Long kmLast;
-    private Long fuelinglitres;
+    private Long kmTillLastPitStop;
+    private Long fuelingDifferenceLitres;
+    private Long fuelPrice;
+    private Long netFuelPayout;
+    private Long totalPayout;
+    private String pilotName;
+    private String pan;
+    private String vehicleNumber;
 }

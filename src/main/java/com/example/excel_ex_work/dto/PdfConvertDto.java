@@ -10,7 +10,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @ToString
 public class PdfConvertDto {

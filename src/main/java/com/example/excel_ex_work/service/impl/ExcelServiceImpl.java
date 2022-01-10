@@ -1,5 +1,7 @@
 package com.example.excel_ex_work.service.impl;
 
+import com.example.excel_ex_work.dto.AdvanceDetailDto;
+import com.example.excel_ex_work.dto.AdvanceSummaryDto;
 import com.example.excel_ex_work.dto.ExcelUploadResponseDto;
 import com.example.excel_ex_work.dto.PilotDetailDto;
 import com.example.excel_ex_work.service.ExcelService;
@@ -21,8 +23,9 @@ public class ExcelServiceImpl implements ExcelService {
 
     @Override
     public ExcelUploadResponseDto bulkuploadExcel(MultipartFile multipartFile, Date startDate, Date endDate) throws Exception {
-        List<PilotDetailDto> pilotPayoutList = utilService.convertToUploadTransactionFromInputFile(multipartFile, Arrays.asList("pilot_code"));
-
+        List<PilotDetailDto> pilotPayoutList = utilService.convertToUploadPilotDetailTransactionFromInputFile(multipartFile, Arrays.asList("pilotCode"));
+        List<AdvanceSummaryDto> advanceSummaryDtoList = utilService.convertToUploadAdvanceSummaryTransactionFromInputFile(multipartFile, Arrays.asList("pilotCode"));
+        List<AdvanceDetailDto> advanceDetailDtoList = utilService.convertToUploadAdvanceDetailTransactionFromInputFile(multipartFile, Arrays.asList("pilotCode"));
 
 
         ExcelUploadResponseDto excelUploadResponseDto = null;

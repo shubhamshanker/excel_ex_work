@@ -13,12 +13,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class AdvanceSummaryDto {
+public class AdvanceDetailDto {
 
     private String pilotCode;
-    private String advanceComponent;
-    private Long cumulativeTillDate;
-    private Long previousOpenAmount;
-    private Long currentAdjustmentPayout;
-
+    private String date;
+    private String item;
+    private String amount;
 }
+
